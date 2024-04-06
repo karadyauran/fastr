@@ -19,7 +19,7 @@ from django.contrib.auth import logout as lg
 def login(request):
     employee = get_object_or_404(User, email=request.data['username'])
     if not employee.check_password(request.data['password']):
-        return Response({"detail": "Not found."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'detail': 'Not found.'}, status=status.HTTP_400_BAD_REQUEST)
     token, created = Token.objects.get_or_create(user=employee)
     serializer = UserSerializer(instance=employee)
     return Response({"token": token.key, "user": serializer.data})
@@ -34,7 +34,7 @@ def signup(request):
         user.set_password(request.data['password'])
         user.save()
         token = Token.objects.create(user=user)
-        return Response({"token": token.key, "user": serializer.data})
+        return Response({'token': token.key, 'user': serializer.data})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -42,10 +42,15 @@ def signup(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(request):
-    return Response("Passed for {}".format(request.user.email))
+    return Response(f'Passed for {request.user.email}')
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def logout(request):
-    lg(request)
-    return Response("logout.")
+    try:
+        request.user.auth_token.delete()
+        return Response({'detail': f'Successfully logged out for {request.user.email}.'}, status=status.HTTP_200_OK)
+    except (AttributeError, Token.DoesNotExist):
+        return Response({'detail': 'Invalid token.'}, status=status.HTTP_400_BAD_REQUEST)
