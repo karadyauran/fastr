@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import os
 import sys
-import dotenv
+from dotenv import load_dotenv
 
 
 def main():
     """Run administrative tasks."""
-    dotenv.load_dotenv('.env')
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fastr.settings')
+    load_dotenv('../../.env')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'service.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

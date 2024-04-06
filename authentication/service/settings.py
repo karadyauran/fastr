@@ -1,11 +1,16 @@
+from os import getenv
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-v@#na+ca)qb9^wq+g&=wleo*y!&e@@2^7%x^0+bk)$kz01y-=)'
+
+SECRET_KEY = getenv('AUTH_SERVICE')
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -26,7 +31,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'fastr.urls'
+ROOT_URLCONF = 'service.urls'
 
 TEMPLATES = [
     {
@@ -44,7 +49,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'fastr.wsgi.application'
+WSGI_APPLICATION = 'service.wsgi.application'
+
+
+# Database
 
 DATABASES = {
     'default': {
@@ -52,6 +60,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -68,6 +79,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Internationalization
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -76,6 +90,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# Static files (CSS, JavaScript, Images)
+
 STATIC_URL = 'static/'
+
+# Default primary key field type
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
