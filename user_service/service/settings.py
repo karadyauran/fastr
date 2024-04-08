@@ -94,6 +94,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 
+AUTH_USER_MODEL = 'auth_app.User'
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
