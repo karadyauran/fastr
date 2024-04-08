@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -34,3 +35,12 @@ def get_user_profile(request):
     user = get_object_or_404(ProfileUser, id=request.user.id)
     serializer = ProfileUserSerializer(instance=user)
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+def delete_user_profile(request):
+    user = get_object_or_404(User, id=request.user.id)
+    user.delete()
+    return Response({'detail': f'Successfully deleted profile for {request.user.email}.'}, status=status.HTTP_200_OK)
