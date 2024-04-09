@@ -16,4 +16,5 @@ urlpatterns = [
     # Profile
     path('api/v3/user/get_user_profile', p.get_user_profile, name='get_user_profile'),
     path('api/v3/user/delete', p.delete_user_profile, name='delete_user_profile'),
+    path('api/v3/user/location_change', p.change_user_profile_location, name='change_user_profile_location'),
 ]
