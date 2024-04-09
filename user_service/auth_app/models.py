@@ -11,6 +11,7 @@ class User(AbstractBaseUser):
 
     profile_image = models.CharField(max_length=255, null=True)
     location = models.CharField(max_length=255, null=True)
+    address = models.CharField(max_length=255, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
