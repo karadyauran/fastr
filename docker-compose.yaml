@@ -3,10 +3,10 @@ version: '3.8'
 services:
   user-service:
     build:
-      context: ./user-service
+      context: ./user_service
       dockerfile: Dockerfile
     volumes:
-      - ./user-service:/app
+      - ./user_service:/app
     ports:
       - "8000:8000"
     depends_on:
