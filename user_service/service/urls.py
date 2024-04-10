@@ -10,7 +10,8 @@ urlpatterns = [
     # Authentication
     path('api/v3/signup', a.signup, name='signup'),
     path('api/v3/login', a.login, name='login'),
-    path('api/v3/test_token', a.test_token, name='test_token'),
+    path('api/v3/is_stuff', a.is_stuff, name='is_stuff'),
+    path('api/v3/get_user', a.get_user, name='get_user'),
     path('api/v3/logout', a.logout, name='logout'),
 
     # Profile

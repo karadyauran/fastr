@@ -13,6 +13,8 @@ class User(AbstractBaseUser):
     location = models.CharField(max_length=255, null=True)
     address = models.CharField(max_length=255, null=True)
 
+    is_staff = models.BooleanField(default=False)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 

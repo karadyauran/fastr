@@ -37,10 +37,17 @@ def signup(request):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def test_token(request):
-    return Response(f'Passed for {request.user.email}')
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+def is_stuff(request):
+    return Response({'is_stuff': request.user.is_staff}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+def get_user(request):
+    return Response(request.user, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

@@ -9,7 +9,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -59,7 +58,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'service.wsgi.application'
 
-
 # Database
 
 DATABASES = {
@@ -68,11 +66,10 @@ DATABASES = {
         'NAME': getenv('DB_NAME'),
         'USER': 'postgres',
         'PASSWORD': getenv('DB_PASSWORD'),
-        'HOST': 'localhost',  # change on production
-        'PORT': 5432,
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 
@@ -91,7 +88,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 
 AUTH_USER_MODEL = 'auth_app.User'
@@ -103,7 +99,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 
