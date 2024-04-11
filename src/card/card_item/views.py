@@ -1,81 +1,82 @@
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import requests
 
 from .models import CartItem
 from .serializer import CartSerializer
 
-from django.shortcuts import get_object_or_404
-from rest_framework import status
 
-import requests
-
-
-def get_user_id(request):
+def get_user_id(token):
     """ Get user id from token """
-    token = request.headers.get('Authorization')
-
     if not token:
-        return Response({'error': 'Token is missing'}, status=400)
+        return None, 'Token is missing'
 
     user_response = requests.get('http://127.0.0.1:8001/api/v3/user/get_user_id', headers={'Authorization': token})
-
     if user_response.status_code == 200:
-        return user_response.json()['id']
+        return user_response.json()['id'], None
     else:
-        return -1
+        return None, 'User not found'
+
+
+def check_product(product_id):
+    """ Check if card item exists """
+    product_response = requests.get(f'http://127.0.0.1:8000/api/v3/product/exists?id={product_id}')
+    if product_response.status_code == 200 and product_response.json()['exists']:
+        return True
+    return False
 
 
 @api_view(['POST'])
 def add(request):
-    """ Add a card item """
-    user_id = get_user_id(request)
+    """ Add card item """
+    token = request.headers.get('Authorization')
+    user_id, error = get_user_id(token)
+    if not user_id:
+        return Response({'error': error}, status=status.HTTP_400_BAD_REQUEST)
 
-    if user_id == -1:
-        return Response({'error': 'Token is missing'}, status=400)
+    product_id = request.data.get('product_id')
+    if not product_id or not check_product(product_id):
+        return Response({'error': 'Product does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
-    product_id = request.data['product_id']
-    product_response = requests.get(f'http://127.0.0.1:8000/api/v3/product/exists?id={product_id}')
+    quantity = request.data.get('quantity', 1)
+    cart_item, created = CartItem.objects.get_or_create(user_id=user_id, product_id=product_id,
+                                                        defaults={'quantity': quantity})
 
-    if product_response.status_code == 200:
-        product_exists = product_response.json()['exists']
+    if not created and quantity:
+        cart_item.quantity += int(quantity)
+        cart_item.save()
 
-        if not product_exists:
-            return Response({'error': 'Product does not exist'}, status=400)
-    else:
-        return Response({'error': product_response.status_code}, status=400)
+    serializer = CartSerializer(cart_item)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    data = {
-        'user_id': user_id,
-        'product_id': product_id,
-        'quantity': request.data['quantity'] if 'quantity' in request.data else 1,
-    }
 
-    serializer = CartSerializer(data=data)
-
-    if serializer.is_valid():
-        serializer.create(data)
-
-        return Response(serializer.data, status=201)
-
-    return Response(serializer.errors, status=400)
+@api_view(['PATCH'])
+def edit_cart_item_quantity(request, cart_id):
+    """ Edit cart item quantity """
+    cart = get_object_or_404(CartItem, pk=cart_id)
+    cart.quantity = request.data.get('quantity', cart.quantity)
+    cart.save()
+    return Response('CartItem quantity updated', status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 def get(request):
-    """ Get a cart items """
-    user_id = get_user_id(request)
+    """ Get cart items """
+    token = request.headers.get('Authorization')
+    user_id, error = get_user_id(token)
+    if not user_id:
+        return Response({'error': error}, status=status.HTTP_400_BAD_REQUEST)
 
-    if user_id == -1:
-        return Response({'error': 'Token is missing'}, status=400)
-
-    cart = CartItem.objects.filter(user_id=user_id)
-    serializer = CartSerializer(cart, many=True)
+    cart_items = CartItem.objects.filter(user_id=user_id)
+    serializer = CartSerializer(cart_items, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['DELETE'])
-def remove(request):
-    """ Remove a cart item """
-    cart_item = get_object_or_404(CartItem, pk=request.data['id'])
+def remove(request, cart_id):
+    """ Remove cart item """
+    cart_item = get_object_or_404(CartItem, pk=cart_id)
     cart_item.delete()
-    return Response('Card item deleted', status=status.HTTP_200_OK)
+    return Response('Cart item deleted', status=status.HTTP_200_OK)
