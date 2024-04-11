@@ -21,7 +21,7 @@ def get_user_id(token):
 
 
 def check_product(product_id):
-    """ Check if card item exists """
+    """ Check if cart item exists """
     product_response = requests.get(f'http://127.0.0.1:8000/api/v3/product/exists?id={product_id}')
     if product_response.status_code == 200 and product_response.json()['exists']:
         return True
@@ -30,7 +30,7 @@ def check_product(product_id):
 
 @api_view(['POST'])
 def add(request):
-    """ Add card item """
+    """ Add cart item """
     token = request.headers.get('Authorization')
     user_id, error = get_user_id(token)
     if not user_id:

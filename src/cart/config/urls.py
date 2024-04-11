@@ -23,6 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('add', card_view.add, name='add'),
-    path('card', card_view.get, name='get'),
+    path('cart', card_view.get, name='get'),
     path('api/v3/remove', card_view.remove, name='remove'),
 ]

@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class CardItemConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'card_item'
+    name = 'cart_item'
