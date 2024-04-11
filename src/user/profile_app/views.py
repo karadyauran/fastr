@@ -54,11 +54,11 @@ def delete_user_profile(request):
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
-def change_user_profile_address(request):
+def change_user_profile_image(request):
     user = get_object_or_404(User, id=request.user.id)
-    user.address = request.query_params.get('address')
+    user.image = request.query_params.get('image')
     user.save()
-    return Response({'detail': f'Successfully changed location for {request.user.email}.'}, status=status.HTTP_200_OK)
+    return Response({'detail': f'Successfully changed image for {request.user.email}.'}, status=status.HTTP_200_OK)
 
 
 @api_view(['PATCH'])
@@ -78,8 +78,8 @@ def change_user_profile_email(request):
     user = get_object_or_404(User, id=request.user.id)
 
     if not User.objects.filter(email=request.user.email).exists():
-        user.location = request.query_params.get('location')
+        user.email = request.query_params.get('email')
         user.save()
-        return Response({'detail': f'Successfully changed location for {request.user.email}.'},
+        return Response({'detail': f'Successfully changed email for {request.user.email}.'},
                         status=status.HTTP_200_OK)
     return Response({'detail': f'Email is already exists'}, status=status.HTTP_400_BAD_REQUEST)

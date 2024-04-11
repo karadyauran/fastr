@@ -1,3 +1,5 @@
+from urllib import response
+
 from django.utils import timezone
 
 from rest_framework.decorators import api_view
@@ -48,8 +50,25 @@ def login(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
+def get_user_id(request):
+    """ Get user id from token """
+    return Response({'id': request.user.id}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+def user_detail(request):
+    """ Get user detail from token """
+    serializer = UserAuthSerializer(request.user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
 def is_staff(request):
-    return Response(request.user.is_staff, status=status.HTTP_200_OK)
+    return Response({'is_staff': request.user.is_staff}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

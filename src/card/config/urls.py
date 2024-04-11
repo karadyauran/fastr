@@ -17,15 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-import authentication.views as auth
+import card_item.views as card_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('signup', auth.signup),
-    path('login', auth.login),
-    path('logout', auth.logout),
-    path('api/v3/user/is_staff', auth.is_staff),
-    path('api/v3/user/get_user_id', auth.get_user_id),
-    path('api/v3/user/get', auth.user_detail, name='user_detail'),
+    path('add', card_view.add, name='add'),
+    path('card', card_view.get, name='get'),
+    path('api/v3/remove', card_view.remove, name='remove'),
 ]

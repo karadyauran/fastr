@@ -24,4 +24,6 @@ urlpatterns = [
 
     path('products', product_views.product_list, name='products'),
     path('product_create', product_views.product_create, name='product_create'),
+    path('api/v3/product/get', product_views.product_detail, name='product_detail'),
+    path('api/v3/product/exists', product_views.product_exists, name='product_exists'),
 ]
