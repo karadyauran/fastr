@@ -26,7 +26,7 @@ def fail_exit(msg, name) -> None:
 
 
 def make_migrations(file) -> bool:
-    if file not in ['config', 'manage.py', 'db.sqlite3']:
+    if file not in ['config', 'manage.py', 'db.sqlite3', '__pycache__']:
         _ = subprocess.run(['python', 'manage.py', 'makemigrations', file])
 
         if _.returncode == 0:
