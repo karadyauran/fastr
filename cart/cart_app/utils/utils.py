@@ -5,10 +5,11 @@ from cart.cart_app.models.cart_model import Cart
 from product.product_app.models.product_model import Product
 
 
-def get_user_id(request):
+def get_user_id(request=None, token=None):
     """ Extract user ID from request token """
-    token_key = request.headers.get('Authorization').split()[1]
-    token = get_object_or_404(Token, key=token_key)
+    if not token:
+        token_key = request.headers.get('Authorization').split()[1]
+        token = get_object_or_404(Token, key=token_key)
     return token.user.id
 
 

@@ -18,11 +18,21 @@ from cart.cart_app.utils.utils import get_user_id, get_cart_id
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 def get(request):
     """ Get cart items """
-    user_id = get_user_id(request)
+    user_id = get_user_id(request=request)
     cart_id = get_cart_id(user_id)
     cart = get_object_or_404(Cart, id=cart_id)
     serializer = CartSerializer(cart)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+def create_cart(token):
+    user_id = get_user_id(token=token)
+    serializer = CartSerializer(data={
+        'user': user_id,
+    })
+
+    if serializer.is_valid():
+        serializer.save()
 
 
 def calculate_total_price(cart_id):

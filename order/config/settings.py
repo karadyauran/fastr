@@ -6,7 +6,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS.extend([
-
+    'order_app',
 ])
 
 ROOT_URLCONF = 'order.config.urls'
