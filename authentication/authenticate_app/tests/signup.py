@@ -2,7 +2,7 @@ import pytest
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.urls import reverse
-from authentication.authenticate.models import UserAuth
+from authentication.authenticate_app.models import UserAuth
 
 
 @pytest.fixture

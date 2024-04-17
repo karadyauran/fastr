@@ -8,8 +8,6 @@ signals = {
     'cross_mark': '\u2717',
 }
 
-files_black_list = ['config', 'manage.py', 'db.sqlite3', '__pycache__', '.pytest_cach']
-
 microservices = [
     'authentication',
     'user',
@@ -62,7 +60,7 @@ def main():
         files = os.listdir()
 
         for file in files:
-            if file not in files_black_list:
+            if 'app' in file:
                 print(make_migrations(file))
 
         print(migrate(microservice))

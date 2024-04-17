@@ -8,7 +8,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS.extend([
-
+    'product_app'
 ])
 
 ROOT_URLCONF = 'product.config.urls'

@@ -11,10 +11,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
-    'authentication.authenticate',
+    'authentication.authenticate_app',
 ]
 
-AUTH_USER_MODEL = 'authenticate.UserAuth'
+AUTH_USER_MODEL = 'authenticate_app.UserAuth'
 
 DATABASES = {
     'default': {

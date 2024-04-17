@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from authentication.authenticate.models.auth_user import UserAuth
+from authentication.authenticate_app.models.auth_user import UserAuth
 
 
 class UserAuthSerializer(serializers.ModelSerializer):

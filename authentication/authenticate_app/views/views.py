@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 
-from authentication.authenticate.models.auth_user import UserAuth
-from authentication.authenticate.serializers.serializer import UserAuthSerializer
+from authentication.authenticate_app.models.auth_user import UserAuth
+from authentication.authenticate_app.serializers.serializer import UserAuthSerializer
 
 from django.shortcuts import get_object_or_404
 
