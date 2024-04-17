@@ -46,31 +46,6 @@ def login(request):
     return Response({"token": token.key, "user": serialized_user}, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-def get_user_id(request):
-    """ Get user id from token """
-    return Response({'id': request.user.id}, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-def user_detail(request):
-    """ Get user detail from token """
-    serializer = UserAuthSerializer(request.user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-def is_staff(request):
-    """ Check if user is staff """
-    return Response({'is_staff': request.user.is_staff}, status=status.HTTP_200_OK)
-
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([SessionAuthentication, TokenAuthentication])

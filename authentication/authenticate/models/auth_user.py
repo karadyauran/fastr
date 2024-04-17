@@ -19,5 +19,7 @@ class UserAuth(AbstractBaseUser):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'full_name']
 
+    objects = models.Manager()
+
     def __str__(self) -> str:
         return f'{self.username} {self.email}'
