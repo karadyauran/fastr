@@ -8,7 +8,7 @@ signals = {
     'cross_mark': '\u2717',
 }
 
-files_black_list = ['config', 'manage.py', 'db.sqlite3', '__pycache__']
+files_black_list = ['config', 'manage.py', 'db.sqlite3', '__pycache__', '.pytest_cach']
 
 microservices = [
     'authentication',
