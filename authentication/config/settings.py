@@ -12,3 +12,4 @@ INSTALLED_APPS.extend([
 ])
 
 ROOT_URLCONF = 'authentication.config.urls'
+WSGI_APPLICATION = 'authentication.config.wsgi.application'

@@ -12,3 +12,4 @@ INSTALLED_APPS.extend([
 ])
 
 ROOT_URLCONF = 'order.config.urls'
+WSGI_APPLICATION = 'order.config.wsgi.application'

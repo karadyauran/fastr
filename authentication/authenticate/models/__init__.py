@@ -1,1 +1,1 @@
-from .auth_user import UserAuth
+from authentication.authenticate.models.auth_user import UserAuth

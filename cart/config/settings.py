@@ -12,3 +12,4 @@ INSTALLED_APPS.extend([
 ])
 
 ROOT_URLCONF = 'cart.config.urls'
+WSGI_APPLICATION = 'cart.config.wsgi.application'

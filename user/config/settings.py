@@ -12,3 +12,4 @@ INSTALLED_APPS.extend([
 ])
 
 ROOT_URLCONF = 'user.config.urls'
+WSGI_APPLICATION = 'user.config.wsgi.application'

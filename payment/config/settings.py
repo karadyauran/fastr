@@ -12,3 +12,4 @@ INSTALLED_APPS.extend([
 ])
 
 ROOT_URLCONF = 'payment.config.urls'
+WSGI_APPLICATION = 'payment.config.wsgi.application'

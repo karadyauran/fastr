@@ -12,3 +12,4 @@ INSTALLED_APPS.extend([
 ])
 
 ROOT_URLCONF = 'notification.config.urls'
+WSGI_APPLICATION = 'notification.config.wsgi.application'
