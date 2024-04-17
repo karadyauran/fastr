@@ -36,7 +36,9 @@ def make_migrations(file) -> str:
         return exit_message(error=True, msg='Migration file created', name=file)
 
     else:
-        raise Exception(exit_message(error=False, msg='Not created migration', name=file))
+        exception = exit_message(error=False, msg='Not created migration', name=file)
+        print(_.stderr)
+        raise Exception(exception)
 
 
 def migrate(microservice) -> str:
@@ -45,7 +47,9 @@ def migrate(microservice) -> str:
     if 'No migrations to apply.' in _.stdout or _.returncode == 0:
         return exit_message(error=True, msg='Migrated', name=microservice)
     else:
-        raise Exception(exit_message(error=False, msg='Not migrated', name=microservice))
+        exception = exit_message(error=False, msg='Not migrated', name=microservice)
+        print(_.stderr)
+        raise Exception(exception)
 
 
 def main():

@@ -1,5 +1,13 @@
 import os
 
+INSTALLED_APPS = [
+    'rest_framework',
+    'rest_framework.authtoken',
+    'authentication.authenticate',
+]
+
+AUTH_USER_MODEL = 'authenticate.UserAuth'
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE'),
