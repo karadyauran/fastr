@@ -6,12 +6,12 @@ from authentication.authenticate.models import UserAuth
 
 
 @pytest.fixture
-def api_client():
+def test_api_client():
     return APIClient()
 
 
 @pytest.fixture
-def user_data():
+def test_user_data():
     return {
         'username': 'testuser',
         'email': 'test@example.com',
@@ -20,7 +20,7 @@ def user_data():
 
 
 @pytest.mark.django_db
-def test_signup_success(api_client, user_data):
+def test_test_signup_success(api_client, user_data):
     url = reverse('signup')
     response = api_client.post(url, user_data, format='json')
 
