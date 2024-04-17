@@ -28,7 +28,6 @@ def product_detail(request) -> Response:
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
 def product_exists(request) -> Response:
     """ Check if a product exists. """
     product_id = request.query_params.get('id')

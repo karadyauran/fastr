@@ -15,6 +15,8 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from cart.cart_app.views import create_cart
+
 
 @api_view(['POST'])
 def signup(request):
@@ -23,6 +25,7 @@ def signup(request):
     if serializer.is_valid():
         user = serializer.create(request.data)
         token, created = Token.objects.get_or_create(user=user)
+        create_cart(token)
 
         serialized_user = UserAuthSerializer(user).data
 

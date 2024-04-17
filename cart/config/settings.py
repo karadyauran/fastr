@@ -6,7 +6,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS.extend([
-
+    'cart_app',
+    'product.product_app'
 ])
 
 ROOT_URLCONF = 'cart.config.urls'

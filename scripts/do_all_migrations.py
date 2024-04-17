@@ -24,7 +24,7 @@ def exit_message(error: bool, msg: str, name: str) -> str:
     status = f'{signals['cross_mark']} FAILED' if not error else f'{signals['check_mark']} SUCCESS'
     style = Style.BRIGHT
     reset = Style.RESET_ALL
-    return f'{color} {style} {status}: {reset} {msg} `{name}` {reset}'
+    return f'{color}{style}{status}:{reset} {msg} `{name}` {reset}'
 
 
 def make_migrations(file) -> str:
