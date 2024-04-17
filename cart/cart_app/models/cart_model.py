@@ -16,4 +16,4 @@ class Cart(models.Model):
         self.total = total
 
     def __str__(self):
-        return f'{self.user_id} | {self.total}'
+        return f'{self.user} | {self.total}'

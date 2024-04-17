@@ -8,7 +8,7 @@ class CartSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        cart = Cart(**validated_data)
+        cart = Cart.objects.create(**validated_data)
 
         cart.save()
         return cart

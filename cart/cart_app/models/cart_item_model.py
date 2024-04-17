@@ -15,4 +15,4 @@ class CartItem(models.Model):
         app_label = 'cart_app'
 
     def __str__(self):
-        return f'{self.cart} | {self.product_id} | {self.quantity}'
+        return f'{self.cart} | {self.product} | {self.quantity}'
