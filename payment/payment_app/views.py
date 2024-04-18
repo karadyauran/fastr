@@ -34,6 +34,8 @@ def payment(request):
             payment_method_types=['card'],
             line_items=line_items,
             mode='payment',
+            success_url="https://google.com",
+            cancel_url="https://python.org",
         )
 
         return Response({'url': session.url}, status=status.HTTP_303_SEE_OTHER)

@@ -7,6 +7,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS.extend([
     'order_app',
+    'product.product_app'
 ])
 
 ROOT_URLCONF = 'order.config.urls'

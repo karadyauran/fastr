@@ -37,10 +37,10 @@ def create_cart(token):
 
 def calculate_total_price(cart_id):
     """ Calculate total price of cart items """
-    cart_items = CartItem.objects.filter(cart_id=cart_id)
-    total_price = cart_items.aggregate(total=Sum(F('product_id__price') * F('quantity')))['total'] or 0
+    cart_items = CartItem.objects.filter(cart=cart_id)
+    total_price = cart_items.aggregate(total=Sum(F('product__price') * F('quantity')))['total'] or 0
     cart = get_object_or_404(Cart, id=cart_id)
     cart.set_total_price(total=total_price)
     cart.save()
-    cart_items = cart_items.select_related('product_id')
+    cart_items = cart_items.select_related('product')
     return Response(CartItemSerializer(cart_items, many=True).data, status=status.HTTP_200_OK)

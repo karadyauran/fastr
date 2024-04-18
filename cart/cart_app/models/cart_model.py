@@ -1,10 +1,10 @@
 from django.db import models
 
-from authentication.authenticate_app.models.auth_user import UserAuth
+from authentication.authenticate_app.models import UserAuth
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(UserAuth, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserAuth, on_delete=models.SET_NULL, null=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     objects = models.Manager()

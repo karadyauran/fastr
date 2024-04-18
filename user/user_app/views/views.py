@@ -11,6 +11,8 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from cart.cart_app.models.cart_model import Cart
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -28,6 +30,8 @@ def get_user_profile(request):
 def delete_user_profile(request):
     """ Delete user profile """
     user = get_object_or_404(UserAuth, id=request.user.id)
+    cart = Cart.objects.filter(user=user).first()
+    cart.delete()
     user.delete()
     return Response({'detail': f'Successfully deleted profile for {request.user.email}.'}, status=status.HTTP_200_OK)
 
@@ -38,7 +42,7 @@ def delete_user_profile(request):
 def change_user_profile_image(request):
     """ Change user profile image """
     user = get_object_or_404(UserAuth, id=request.user.id)
-    user.image = request.query_params.get('image')
+    user.profile_photo = request.query_params.get('image')
     user.save()
     return Response({'detail': f'Successfully changed image for {request.user.email}.'}, status=status.HTTP_200_OK)
 
@@ -61,7 +65,7 @@ def change_user_profile_email(request):
     """ Change user profile email """
     user = get_object_or_404(UserAuth, id=request.user.id)
 
-    if not UserAuth.objects.filter(email=request.user.email).exists():
+    if not UserAuth.objects.filter(email=request.query_params.get('email')).exists():
         user.email = request.query_params.get('email')
         user.save()
         return Response({'detail': f'Successfully changed email for {request.user.email}.'},

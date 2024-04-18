@@ -12,7 +12,7 @@ class OrderItem(models.Model):
     objects = models.Manager()
 
     class Meta:
-        app_label = 'cart_app'
+        app_label = 'order_app'
 
     def __str__(self):
         return f'{self.order} | {self.product} | {self.quantity}'
