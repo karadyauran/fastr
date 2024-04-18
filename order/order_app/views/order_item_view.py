@@ -17,26 +17,6 @@ from order.order_app.views.order_view import calculate_total_price, create
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
-def add(request):
-    # TODO: make it for cart
-    """ Add all order items from cart """
-    user_id = get_user_id(request=request)
-    product_id = request.data.get('product_id')
-    if not product_id or not check_product(product_id):
-        return Response({'error': 'Product does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-    quantity = request.data.get('quantity', 1)
-    order_item, created = OrderItem.objects.get_or_create(cart_id=get_order_id(user_id), product_id=product_id,
-                                                          defaults={'quantity': quantity})
-    if not created and quantity:
-        order_item.quantity += int(quantity)
-        order_item.save()
-    calculate_total_price(get_order_id(user_id))
-    return Response(OrderItemSerializer(order_item).data, status=status.HTTP_201_CREATED)
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
 def add_all_from_cart(request):
     user_id = get_user_id(request=request)
     cart_items = CartItem.objects.filter(cart=get_cart_id(user_id=user_id))
