@@ -11,7 +11,7 @@ logs/
 *.pid
 *.toc
 *.out
-celerybeat-schedule                                                                     
+celerybeat-schedule
 .ipynb_checkpoints
 env/
 .env

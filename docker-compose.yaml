@@ -3,13 +3,13 @@ version: '3.8'
 services:
   postgres:
     image: postgres
-    container_name: fastr-compose
+    container_name: fastr-database
     environment:
-      POSTGRES_DB: fastr
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123123
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:${DB_PORT}"
     user: postgres
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
