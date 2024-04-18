@@ -39,6 +39,8 @@ def create(token):
     if serializer.is_valid():
         serializer.save()
 
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 def calculate_total_price(order_id):
     """ Calculate total price of order items """
