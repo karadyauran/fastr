@@ -15,7 +15,6 @@ microservices = [
     'cart',
     'order',
     'payment',
-    'notification'
 ]
 
 
