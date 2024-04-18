@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from cart.cart_app.models.cart_item_model import CartItem
 from order.order_app.models.order_item_model import OrderItem
 from order.order_app.serializers.order_item_serializer import OrderItemSerializer
-from cart.cart_app.utils.utils import get_user_id, check_product, get_cart_id
+from cart.cart_app.utils.utils import get_user_id, get_cart_id
 from order.order_app.utils import get_order_id
 from order.order_app.views.order_view import calculate_total_price, create
 
