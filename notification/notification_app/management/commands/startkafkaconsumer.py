@@ -7,7 +7,6 @@ from notification.notification_app.views import send_kafka_notification
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        self.stdout.write("Starting Kafka consumer...")
         self.kafka_consumer('localhost:9092', 'auth-topic')
 
     def kafka_consumer(self, bootstrap_servers, topic):
