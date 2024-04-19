@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 
+from authentication.authenticate_app.management.commands.send_kafka_messages import Command
 from authentication.authenticate_app.models.auth_user import UserAuth
 from authentication.authenticate_app.serializers.serializer import UserAuthSerializer
 
@@ -46,6 +47,13 @@ def login(request):
 
     token, created = Token.objects.get_or_create(user=auth_user)
     serialized_user = UserAuthSerializer(auth_user).data
+
+    cmd = Command()
+    cmd.kafka_producer('localhost:9092', 'auth-topic', data={
+        'email': auth_user.email,
+        'first_name': auth_user.first_name,
+    })
+
     return Response({"token": token.key, "user": serialized_user}, status=status.HTTP_200_OK)
 
 

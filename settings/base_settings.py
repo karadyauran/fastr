@@ -37,6 +37,8 @@ CACHES = {
     }
 }
 
+KAFKA_BOOTSTRAP_SERVERS = 'localhost:9092'
+
 CACHE_TTL = 60 * 30
 CACHES['default']['TIMEOUT'] = CACHE_TTL
 
