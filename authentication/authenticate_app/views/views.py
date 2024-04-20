@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.utils import timezone
 
 from rest_framework.decorators import api_view
@@ -26,6 +27,7 @@ def signup(request):
     if serializer.is_valid():
         user = serializer.create(request.data)
         token, created = Token.objects.get_or_create(user=user)
+        cache.set(f'token_{user.id}', token, timeout=3600 * 4)
         create_cart(token)
 
         serialized_user = UserAuthSerializer(user).data
@@ -45,16 +47,21 @@ def login(request):
     auth_user.last_login = timezone.now()
     auth_user.save()
 
-    token, created = Token.objects.get_or_create(user=auth_user)
-    serialized_user = UserAuthSerializer(auth_user).data
+    token_key = cache.get(f'token_{auth_user.id}')
+    if not token_key:
+        token, created = Token.objects.get_or_create(user=auth_user)
+        token_key = token.key
+        cache.set(f'token_{auth_user.id}', token_key, timeout=3600*4)
 
-    cmd = Command()
-    cmd.kafka_producer('localhost:9092', 'auth-topic', data={
+    kafka_data = {
         'email': auth_user.email,
         'first_name': auth_user.first_name,
-    })
+    }
 
-    return Response({"token": token.key, "user": serialized_user}, status=status.HTTP_200_OK)
+    cmd = Command()
+    cmd.kafka_producer('localhost:9092', 'auth-topic', data=kafka_data)
+
+    return Response({"token": str(token_key), "user": UserAuthSerializer(auth_user).data}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -65,6 +72,8 @@ def logout(request):
     try:
         request.user.is_active = False
         request.user.save()
+
+        cache.delete(f'token_{request.user.id}')
 
         request.user.auth_token.delete()
 

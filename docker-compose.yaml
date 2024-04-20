@@ -30,9 +30,10 @@ services:
     depends_on:
       - zookeeper
 
-  postgres:
+  primary_db:
     image: postgres
-    container_name: fastr-database
+    restart: always
+    container_name: fastr-database-master
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -45,6 +46,34 @@ services:
       interval: 1s
       timeout: 1s
       retries: 5
+
+  replica_db:
+    image: postgres
+    restart: always
+    container_name: fastr-database-slave
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD_REPLICA}
+      POSTGRES_USER: ${DB_USER_REPLICA}
+      POSTGRES_DB: DB_NAME_REPLICA
+      POSTGRES_PRIMARY_SERVICE: primary_db
+      POSTGRES_PRIMARY_PORT: ${DB_PORT}
+      POSTGRES_REPLICATION_MODE: 'slave'
+      POSTGRES_REPLICATION_USER: ${POSTGRES_REPLICATION_USER}
+      POSTGRES_REPLICATION_PASSWORD: ${POSTGRES_REPLICATION_PASSWORD}
+    ports:
+      - "5433:5432"
+
+  authentication:
+    build:
+      context: .
+      dockerfile: ./authentication/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./authentication:/authentication
+    ports:
+      - "8000:8000"
+    depends_on:
+      - primary_db
 
 volumes:
   redis_data:
