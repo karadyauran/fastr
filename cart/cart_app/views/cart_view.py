@@ -25,8 +25,9 @@ def get(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-def create_cart(token):
-    user_id = get_user_id(token=token)
+@api_view(['POST'])
+def create_cart(request):
+    user_id = get_user_id(token=request.data.get('token'))
     serializer = CartSerializer(data={
         'user': user_id,
     })
