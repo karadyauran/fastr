@@ -64,6 +64,8 @@ services:
       - "5433:5432"
 
   authentication:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: ./authentication/Dockerfile
@@ -72,6 +74,90 @@ services:
       - ./authentication:/authentication
     ports:
       - "8000:8000"
+    depends_on:
+      - primary_db
+
+  user:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./user/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
+    volumes:
+      - ./user:/user
+    ports:
+      - "8001:8001"
+    depends_on:
+      - primary_db
+
+  product:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./product/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8002
+    volumes:
+      - ./product:/product
+    ports:
+      - "8002:8002"
+    depends_on:
+      - primary_db
+
+  cart:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./cart/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8003
+    volumes:
+      - ./cart:/cart
+    ports:
+      - "8003:8003"
+    depends_on:
+      - primary_db
+
+  order:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./order/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8004
+    volumes:
+      - ./order:/order
+    ports:
+      - "8004:8004"
+    depends_on:
+      - primary_db
+
+  payment:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./payment/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8005
+    volumes:
+      - ./payment:/payment
+    ports:
+      - "8005:8005"
+    depends_on:
+      - primary_db
+
+  notification:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./notification/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8006
+    volumes:
+      - ./notification:/notification
+    ports:
+      - "8006:8006"
     depends_on:
       - primary_db
 
