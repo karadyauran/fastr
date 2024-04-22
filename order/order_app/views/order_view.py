@@ -10,7 +10,7 @@ from order.order_app.models.order_model import Order
 from order.order_app.models.order_item_model import OrderItem
 from order.order_app.serializers.order_serializer import OrderSerializer
 from order.order_app.serializers.order_item_serializer import OrderItemSerializer
-from cart.cart_app.utils.utils import get_user_id
+from order.order_app.utils import get_user_id
 
 
 @api_view(['GET'])

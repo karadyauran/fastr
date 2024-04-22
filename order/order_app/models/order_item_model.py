@@ -1,7 +1,7 @@
 from django.db import models
 
 from order.order_app.models.order_model import Order
-from product.product_app.models.product_model import Product
+from order.order_app.models.product_model import Product
 
 
 class OrderItem(models.Model):

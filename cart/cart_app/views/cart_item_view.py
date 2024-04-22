@@ -7,10 +7,10 @@ from rest_framework.response import Response
 
 from cart.cart_app.models.cart_item_model import CartItem
 from cart.cart_app.models.cart_model import Cart
+from cart.cart_app.models.product_model import Product
 from cart.cart_app.serializers.cart_item_serializer import CartItemSerializer
 from cart.cart_app.utils.utils import get_user_id, get_cart_id, check_product
 from cart.cart_app.views.cart_view import calculate_total_price
-from product.product_app.models.product_model import Product
 
 
 @api_view(['POST'])

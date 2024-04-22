@@ -1,6 +1,6 @@
 from django.db import models
 
-from authentication.authenticate_app.models import UserAuth
+from cart.cart_app.models.auth_user import UserAuth
 
 
 class Cart(models.Model):

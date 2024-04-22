@@ -25,16 +25,6 @@ def get(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-def create_cart(token):
-    user_id = get_user_id(token=token)
-    serializer = CartSerializer(data={
-        'user': user_id,
-    })
-
-    if serializer.is_valid():
-        serializer.save()
-
-
 def calculate_total_price(cart_id):
     """ Calculate total price of cart items """
     cart_items = CartItem.objects.filter(cart=cart_id)

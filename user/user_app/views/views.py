@@ -2,16 +2,15 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from authentication.authenticate_app.models.auth_user import UserAuth
-from authentication.authenticate_app.serializers.serializer import UserAuthSerializer
-
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from cart.cart_app.models.cart_model import Cart
+from user.user_app.models.auth_user import UserAuth
+from user.user_app.models.cart_model import Cart
+from user.user_app.serializers.serializer import UserAuthSerializer
 
 
 @api_view(['GET'])

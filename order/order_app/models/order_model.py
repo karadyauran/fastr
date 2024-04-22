@@ -1,5 +1,6 @@
 from django.db import models
-from authentication.authenticate_app.models.auth_user import UserAuth
+
+from order.order_app.models.auth_user import UserAuth
 
 
 class Order(models.Model):

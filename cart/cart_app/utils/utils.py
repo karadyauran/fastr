@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
 
 from cart.cart_app.models.cart_model import Cart
-from product.product_app.models.product_model import Product
+from cart.cart_app.models.product_model import Product
 
 
 def get_user_id(request=None, token=None):

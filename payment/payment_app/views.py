@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import stripe
 
-from order.order_app.models.order_item_model import OrderItem
+
 from payment.config.settings import STRIPE_TEST_SECRET_KEY, STRIPE_WEBHOOK_SECRET
 
 stripe.api_key = STRIPE_TEST_SECRET_KEY

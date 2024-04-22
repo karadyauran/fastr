@@ -6,10 +6,10 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from cart.cart_app.models.cart_item_model import CartItem
+from order.order_app.models.cart_item_model import CartItem
 from order.order_app.serializers import OrderSerializer
 from order.order_app.serializers.order_item_serializer import OrderItemSerializer
-from cart.cart_app.utils.utils import get_user_id, get_cart_id
+from order.order_app.utils import get_user_id, get_cart_id
 from order.order_app.views.order_view import calculate_total_price, create
 
 

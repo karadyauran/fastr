@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 
 from authentication.authenticate_app.management.commands.send_kafka_messages import Command
 from authentication.authenticate_app.models.auth_user import UserAuth
+from authentication.authenticate_app.serializers.cart_serializer import CartSerializer
 from authentication.authenticate_app.serializers.serializer import UserAuthSerializer
 
 from django.shortcuts import get_object_or_404
@@ -16,7 +17,25 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from cart.cart_app.views import create_cart
+from settings.base_settings import KAFKA_BOOTSTRAP_SERVERS
+
+
+def get_user_id(request=None, token=None):
+    """ Extract user ID from request token """
+    if not token:
+        token_key = request.headers.get('Authorization').split()[1]
+        token = get_object_or_404(Token, key=token_key)
+    return token.user.id
+
+
+def create_cart(token):
+    user_id = get_user_id(token=token)
+    serializer = CartSerializer(data={
+        'user': user_id,
+    })
+
+    if serializer.is_valid():
+        serializer.save()
 
 
 @api_view(['POST'])
@@ -48,11 +67,11 @@ def login(request):
     token, created = Token.objects.get_or_create(user=auth_user)
     serialized_user = UserAuthSerializer(auth_user).data
 
-    cmd = Command()
-    cmd.kafka_producer('localhost:9092', 'auth-topic', data={
-        'email': auth_user.email,
-        'first_name': auth_user.first_name,
-    })
+    # cmd = Command()
+    # cmd.kafka_producer(KAFKA_BOOTSTRAP_SERVERS, 'auth-topic', data={
+    #     'email': auth_user.email,
+    #     'first_name': auth_user.first_name,
+    # })
 
     return Response({"token": token.key, "user": serialized_user}, status=status.HTTP_200_OK)
 

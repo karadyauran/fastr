@@ -1,7 +1,7 @@
 from django.db import models
 
 from cart.cart_app.models.cart_model import Cart
-from product.product_app.models.product_model import Product
+from cart.cart_app.models.product_model import Product
 
 
 class CartItem(models.Model):

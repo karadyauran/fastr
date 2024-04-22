@@ -1,5 +1,7 @@
 import os
 
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -10,11 +12,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-
-    'authentication.authenticate_app',
 ]
-
-AUTH_USER_MODEL = 'authenticate_app.UserAuth'
 
 DATABASES = {
     'default': {
@@ -30,14 +28,14 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': 'redis:/redis:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
     }
 }
 
-KAFKA_BOOTSTRAP_SERVERS = 'localhost:9092'
+KAFKA_BOOTSTRAP_SERVERS = 'kafka://kafka:9092'
 
 CACHE_TTL = 60 * 30
 CACHES['default']['TIMEOUT'] = CACHE_TTL

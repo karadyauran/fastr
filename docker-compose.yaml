@@ -30,9 +30,10 @@ services:
     depends_on:
       - zookeeper
 
-  postgres:
+  primary_db:
     image: postgres
-    container_name: fastr-database
+    restart: always
+    container_name: fastr-database-master
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -45,6 +46,134 @@ services:
       interval: 1s
       timeout: 1s
       retries: 5
+
+  replica_db:
+    image: postgres
+    restart: always
+    container_name: fastr-database-slave
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD_REPLICA}
+      POSTGRES_USER: ${DB_USER_REPLICA}
+      POSTGRES_DB: DB_NAME_REPLICA
+      POSTGRES_PRIMARY_SERVICE: primary_db
+      POSTGRES_PRIMARY_PORT: ${DB_PORT}
+      POSTGRES_REPLICATION_MODE: 'slave'
+      POSTGRES_REPLICATION_USER: ${POSTGRES_REPLICATION_USER}
+      POSTGRES_REPLICATION_PASSWORD: ${POSTGRES_REPLICATION_PASSWORD}
+    ports:
+      - "5433:5432"
+
+  authentication:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./authentication/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./authentication:/authentication
+    ports:
+      - "8000:8000"
+    depends_on:
+      - primary_db
+      - replica_db
+      - redis
+
+  user:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./user/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
+    volumes:
+      - ./user:/user
+    ports:
+      - "8001:8001"
+    depends_on:
+      - primary_db
+      - replica_db
+      - redis
+
+  product:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./product/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8002
+    volumes:
+      - ./product:/product
+    ports:
+      - "8002:8002"
+    depends_on:
+      - primary_db
+      - replica_db
+      - redis
+
+  cart:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./cart/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8003
+    volumes:
+      - ./cart:/cart
+    ports:
+      - "8003:8003"
+    depends_on:
+      - primary_db
+      - replica_db
+      - redis
+
+  order:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./order/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8004
+    volumes:
+      - ./order:/order
+    ports:
+      - "8004:8004"
+    depends_on:
+      - primary_db
+      - replica_db
+      - redis
+
+  payment:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./payment/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8005
+    volumes:
+      - ./payment:/payment
+    ports:
+      - "8005:8005"
+    depends_on:
+      - primary_db
+      - replica_db
+      - redis
+
+  notification:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./notification/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8006
+    volumes:
+      - ./notification:/notification
+    ports:
+      - "8006:8006"
+    depends_on:
+      - primary_db
+      - replica_db
+      - redis
 
 volumes:
   redis_data:
