@@ -1,3 +1,4 @@
+import requests
 from django.core.cache import cache
 from django.utils import timezone
 
@@ -17,8 +18,6 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from cart.cart_app.views import create_cart
-
 
 @api_view(['POST'])
 def signup(request):
@@ -28,7 +27,10 @@ def signup(request):
         user = serializer.create(request.data)
         token, created = Token.objects.get_or_create(user=user)
         cache.set(f'token_{user.id}', token, timeout=3600 * 4)
-        create_cart(token)
+
+        url = 'http://cart:8003/api/v1/cart/create_cart'
+        data = {'token': token.key}
+        requests.post(url, data=data)
 
         serialized_user = UserAuthSerializer(user).data
 
