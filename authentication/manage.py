@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 def main():
     """Run administrative tasks."""
-    load_dotenv()
+    load_dotenv('.env')
     sys.path.append(str(Path(__file__).resolve().parent.parent))
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'authentication.config.settings')
     try:
