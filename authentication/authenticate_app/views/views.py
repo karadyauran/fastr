@@ -67,11 +67,11 @@ def login(request):
     token, created = Token.objects.get_or_create(user=auth_user)
     serialized_user = UserAuthSerializer(auth_user).data
 
-    # cmd = Command()
-    # cmd.kafka_producer(KAFKA_BOOTSTRAP_SERVERS, 'auth-topic', data={
-    #     'email': auth_user.email,
-    #     'first_name': auth_user.first_name,
-    # })
+    cmd = Command()
+    cmd.kafka_producer(KAFKA_BOOTSTRAP_SERVERS, 'auth-topic', data={
+        'email': auth_user.email,
+        'first_name': auth_user.first_name,
+    })
 
     return Response({"token": token.key, "user": serialized_user}, status=status.HTTP_200_OK)
 

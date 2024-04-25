@@ -2,11 +2,11 @@ billiard
 click-didyoumean
 click-plugins
 click-repl
-colorama
+colorama~=0.4.6
 confluent-kafka
 dj-stripe
 django-redis
-djangorestframework
+djangorestframework~=3.15.1
 iniconfig
 kafka-python
 kombu
@@ -16,8 +16,9 @@ pluggy
 psycopg
 psycopg2-binary
 python-dateutil
-python-dotenv
+python-dotenv~=1.0.1
 tzdata
-Django
-stripe
-requests
+Django~=5.0.4
+stripe~=4.2.0
+requests~=2.31.0
+pytest~=8.1.1

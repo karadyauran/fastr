@@ -7,6 +7,7 @@ import stripe
 
 
 from payment.config.settings import STRIPE_TEST_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+from payment.payment_app.models import OrderItem
 
 stripe.api_key = STRIPE_TEST_SECRET_KEY
 
