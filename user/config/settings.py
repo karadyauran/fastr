@@ -7,5 +7,7 @@ INSTALLED_APPS.extend([
     'user_app',
 ])
 
+AUTH_USER_MODEL = 'user_app.UserAuth'
+
 ROOT_URLCONF = 'user.config.urls'
 WSGI_APPLICATION = 'user.config.wsgi.application'

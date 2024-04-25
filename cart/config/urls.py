@@ -11,6 +11,4 @@ urlpatterns = [
     path('api/v1/cart/add_item_to_cart', cart_app.add, name='add_item_to_cart'),
     path('api/v1/cart/edit_cart_item_quantity', cart_app.edit_cart_item_quantity, name='edit_cart_item_quantity'),
     path('api/v1/cart/remove', cart_app.remove, name='remove'),
-
-    path('api/v1/cart/create_cart', cart_app.create_cart, name='create_cart'),
 ]
